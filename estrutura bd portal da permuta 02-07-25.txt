@@ -1,0 +1,410 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.7
+-- https://www.phpmyadmin.net/
+--
+-- Host: 186.202.152.152
+-- Generation Time: 02-Jul-2025 às 14:11
+-- Versão do servidor: 5.7.32-35-log
+-- PHP Version: 5.6.40-0+deb8u12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `portaldapermut`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `area`
+--
+
+CREATE TABLE `area` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) NOT NULL COMMENT 'especifica a area de atuaçao no cargo'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `area_usuario`
+--
+
+CREATE TABLE `area_usuario` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ligação entre o usuario e a area de atuação';
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ativo`
+--
+
+CREATE TABLE `ativo` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `ativo` int(1) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` date DEFAULT NULL,
+  `deleted_at` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cargo`
+--
+
+CREATE TABLE `cargo` (
+  `id_cargos` int(11) NOT NULL,
+  `nome_cargo` varchar(100) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `contato`
+--
+
+CREATE TABLE `contato` (
+  `id_contato` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `fone` varchar(15) DEFAULT NULL,
+  `celular` varchar(15) DEFAULT NULL,
+  `whatsapp` varchar(15) DEFAULT NULL,
+  `email_alternativo` varchar(120) DEFAULT NULL,
+  `imagem` varchar(225) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `destaque`
+--
+
+CREATE TABLE `destaque` (
+  `id_destaque` int(5) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `data_pgto` date NOT NULL,
+  `data_inicio` date NOT NULL,
+  `data_fim` date NOT NULL,
+  `tipo` int(2) DEFAULT NULL COMMENT '1 front page 2 detalhes part.',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `exclusao`
+--
+
+CREATE TABLE `exclusao` (
+  `id_exclusao` int(11) NOT NULL,
+  `nome` varchar(200) NOT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `email` varchar(200) NOT NULL,
+  `motivo` int(1) NOT NULL COMMENT '1= consegui pelo Portal 2=Desisti da Permuta 3= entrei por curiosidade 4= outro motivo 5= consegui a permuta',
+  `indicacao` int(1) NOT NULL,
+  `critica` varchar(300) DEFAULT NULL,
+  `data_inscricao` timestamp NOT NULL,
+  `data_exclusao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `mural`
+--
+
+CREATE TABLE `mural` (
+  `id_mural` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `comentario` mediumtext
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `orgao_empresa`
+--
+
+CREATE TABLE `orgao_empresa` (
+  `id_org` int(11) NOT NULL,
+  `nome_orgao` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_cidades`
+--
+
+CREATE TABLE `tb_cidades` (
+  `cid_id` int(4) UNSIGNED ZEROFILL NOT NULL,
+  `cid_estado` int(2) UNSIGNED ZEROFILL NOT NULL DEFAULT '00',
+  `cid_uf` varchar(4) NOT NULL DEFAULT '',
+  `cid_nome` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_estados`
+--
+
+CREATE TABLE `tb_estados` (
+  `estado_id` int(2) UNSIGNED ZEROFILL NOT NULL,
+  `estado_uf` varchar(10) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `estado_nome` varchar(20) CHARACTER SET latin1 NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `user_admin`
+--
+
+CREATE TABLE `user_admin` (
+  `id_adm` int(10) NOT NULL,
+  `username` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `senha` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `user_destino`
+--
+
+CREATE TABLE `user_destino` (
+  `id_destino` int(11) NOT NULL,
+  `id_inter` int(11) NOT NULL,
+  `id_cidade` int(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id_user` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `apelido` varchar(50) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `estado_origem` varchar(10) DEFAULT NULL,
+  `cidade_origem` varchar(100) DEFAULT NULL,
+  `id_orgao` int(10) DEFAULT NULL,
+  `id_cargo` int(10) DEFAULT NULL,
+  `cadastro_ativado` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-inativo 1- ativo',
+  `plus` int(2) NOT NULL DEFAULT '0' COMMENT '0-não 1-paga anuidade',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `area`
+--
+ALTER TABLE `area`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nome_UNIQUE` (`nome`);
+
+--
+-- Indexes for table `area_usuario`
+--
+ALTER TABLE `area_usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `area_idx` (`area_id`);
+
+--
+-- Indexes for table `ativo`
+--
+ALTER TABLE `ativo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `usuario_id_UNIQUE` (`usuario_id`);
+
+--
+-- Indexes for table `cargo`
+--
+ALTER TABLE `cargo`
+  ADD PRIMARY KEY (`id_cargos`);
+
+--
+-- Indexes for table `contato`
+--
+ALTER TABLE `contato`
+  ADD PRIMARY KEY (`id_contato`),
+  ADD UNIQUE KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indexes for table `destaque`
+--
+ALTER TABLE `destaque`
+  ADD PRIMARY KEY (`id_destaque`) USING BTREE,
+  ADD KEY `usuario_id_idx` (`usuario_id`);
+
+--
+-- Indexes for table `exclusao`
+--
+ALTER TABLE `exclusao`
+  ADD PRIMARY KEY (`id_exclusao`);
+
+--
+-- Indexes for table `mural`
+--
+ALTER TABLE `mural`
+  ADD PRIMARY KEY (`id_mural`),
+  ADD UNIQUE KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indexes for table `orgao_empresa`
+--
+ALTER TABLE `orgao_empresa`
+  ADD PRIMARY KEY (`id_org`);
+
+--
+-- Indexes for table `tb_cidades`
+--
+ALTER TABLE `tb_cidades`
+  ADD PRIMARY KEY (`cid_id`);
+
+--
+-- Indexes for table `tb_estados`
+--
+ALTER TABLE `tb_estados`
+  ADD PRIMARY KEY (`estado_id`);
+
+--
+-- Indexes for table `user_admin`
+--
+ALTER TABLE `user_admin`
+  ADD PRIMARY KEY (`id_adm`);
+
+--
+-- Indexes for table `user_destino`
+--
+ALTER TABLE `user_destino`
+  ADD PRIMARY KEY (`id_destino`);
+
+--
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `area`
+--
+ALTER TABLE `area`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `area_usuario`
+--
+ALTER TABLE `area_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=517;
+
+--
+-- AUTO_INCREMENT for table `ativo`
+--
+ALTER TABLE `ativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9551;
+
+--
+-- AUTO_INCREMENT for table `cargo`
+--
+ALTER TABLE `cargo`
+  MODIFY `id_cargos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=539;
+
+--
+-- AUTO_INCREMENT for table `contato`
+--
+ALTER TABLE `contato`
+  MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21124;
+
+--
+-- AUTO_INCREMENT for table `destaque`
+--
+ALTER TABLE `destaque`
+  MODIFY `id_destaque` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+
+--
+-- AUTO_INCREMENT for table `exclusao`
+--
+ALTER TABLE `exclusao`
+  MODIFY `id_exclusao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2287;
+
+--
+-- AUTO_INCREMENT for table `mural`
+--
+ALTER TABLE `mural`
+  MODIFY `id_mural` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21057;
+
+--
+-- AUTO_INCREMENT for table `orgao_empresa`
+--
+ALTER TABLE `orgao_empresa`
+  MODIFY `id_org` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=665;
+
+--
+-- AUTO_INCREMENT for table `tb_cidades`
+--
+ALTER TABLE `tb_cidades`
+  MODIFY `cid_id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9828;
+
+--
+-- AUTO_INCREMENT for table `tb_estados`
+--
+ALTER TABLE `tb_estados`
+  MODIFY `estado_id` int(2) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `user_admin`
+--
+ALTER TABLE `user_admin`
+  MODIFY `id_adm` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_destino`
+--
+ALTER TABLE `user_destino`
+  MODIFY `id_destino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118043;
+
+--
+-- AUTO_INCREMENT for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28976;
+COMMIT;
